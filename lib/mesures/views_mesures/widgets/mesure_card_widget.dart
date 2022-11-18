@@ -4,16 +4,16 @@ import '../../../core/constants.dart';
 
 class MesureCard extends StatelessWidget {
   final String? counterCode;
-  final String? measure;
+  final double? measure;
   final String? dateMeasure;
   final String? comments;
 
   const MesureCard(
       {Key? key,
-      this.counterCode,
-      this.measure,
-      this.dateMeasure,
-      this.comments})
+      required this.counterCode,
+      required this.measure,
+      required this.dateMeasure,
+      required this.comments})
       : super(key: key);
 
   @override
@@ -75,7 +75,7 @@ class MesureCard extends StatelessWidget {
                   ),
                   Expanded(
                     child: Text(
-                      measure!,
+                      measure.toString(),
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
@@ -85,12 +85,12 @@ class MesureCard extends StatelessWidget {
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
-                  Expanded(
-                    child: Text(
-                      comments!,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
+                  // Expanded(
+                  //   child: Text(
+                  //     comments!,
+                  //     style: const TextStyle(fontWeight: FontWeight.bold),
+                  //   ),
+                  // ),
                 ],
               ),
             ),

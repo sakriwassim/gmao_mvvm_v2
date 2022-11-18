@@ -1,246 +1,228 @@
+import 'dart:convert';
 
-// import 'package:flutter/material.dart';
-// import '../models_mesures/add_mesure_model.dart';
-// import '../mesures_repositories/mesures_api.dart';
-// import '../view_model_mesures/mesures_view_model.dart';
+import 'dart:io';
 
-// class AddMesureView extends StatefulWidget {
-//   const AddMesureView({
-//     super.key,
-//   });
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
-//   @override
-//   State<AddMesureView> createState() => _AddMesureViewState();
-// }
+import '../../counters/counters_repositories/counters_api.dart';
+import '../mesures_repositories/mesures_api.dart';
+import '../view_model_mesures/mesures_view_model.dart';
 
-// class _AddMesureViewState extends State<AddMesureView> {
-//   int selectedIndex = -1;
-//   final formkey = GlobalKey<FormState>();
-//   late String libellefield;
-//   late int prixfield;
-//   late String descriptionfield;
-//   late String _yourVariable;
-//   List<DateTime?> _dataTime = [];
-//   List<OneCategorieViewModel>? categories = [];
-//   double _currentSliderValue = 0;
+class Addmesure extends StatefulWidget {
+  final String id;
 
-//   var datacategorie = CategoriesViewModel(ticketsRepository: CategoriesApi());
+  const Addmesure({
+    Key? key,
+    required this.id,
+  }) : super(key: key);
 
-//   var data = MesuresViewModel(mesuresRepository: MesuresApi());
+  @override
+  State<Addmesure> createState() => _AddmesureState();
+}
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: Colors.white,
-//       appBar: AppBar(
-//           iconTheme: const IconThemeData(
-//             color: Colors.black,
-//           ),
-//           shadowColor: Colors.white,
-//           elevation: 0.0,
-//           backgroundColor: Colors.white,
-//           title: const Text(
-//             "Add mesure",
-//             style: TextStyle(
-//               color: Colors.black,
-//             ),
-//           )),
-//       body: Form(
-//         key: formkey,
-//         child: Column(
-//           children: [
-//             Padding(
-//               padding: const EdgeInsets.all(15),
-//               child: TextFormField(
-//                 decoration: textFieldDecoration(
-//                   "Nom de levenment",
-//                   "entre le nom de levenment",
-//                 ),
-//                 validator: (value) {
-//                   if (value!.isEmpty) {
-//                     return "Nom de levenment";
-//                   } else {
-//                     return null;
-//                   }
-//                 },
-//                 onChanged: (text) {
-//                   libellefield = text;
-//                 },
-//               ),
-//             ),
-//             ElevatedButton(
-//                 onPressed: () async {
-//                   var _newDate = await showCalendarDatePicker2Dialog(
-//                     context: context,
-//                     config: CalendarDatePicker2WithActionButtonsConfig(),
-//                     dialogSize: const Size(325, 400),
-//                     initialValue: [],
-//                     borderRadius: BorderRadius.circular(15),
-//                   );
-//                   if (_newDate != null) {
-//                     setState(() {
-//                       _dataTime = _newDate;
-//                     });
-//                   }
-//                 },
-//                 child: const Text("Parcourire ce calendrier")),
-//             Text('$_dataTime'),
-//             Container(
-//               margin: const EdgeInsets.only(
-//                   left: 20.0, right: 20.0, top: 5, bottom: 5),
-//               child: TextFormField(
-//                 decoration: textFieldDecoration(
-//                   "localisation",
-//                   "entre le localisation",
-//                 ),
-//                 validator: (value) {
-//                   if (value!.isEmpty) {
-//                     return "le localisation";
-//                   } else {
-//                     return null;
-//                   }
-//                 },
-//                 onChanged: (text) {
-//                   prixfield = 7;
-//                 },
-//               ),
-//             ),
-//             Container(
-//               margin: const EdgeInsets.only(left: 20.0, right: 20.0, top: 5),
-//               alignment: Alignment.topLeft,
-//               child: const Text("Categories",
-//                   style: TextStyle(
-//                     fontFamily: 'AirbnbCereal',
-//                     color: Colors.black,
-//                     fontSize: 18,
-//                     fontWeight: FontWeight.w500,
-//                   )),
-//             ),
-//             SizedBox(
-//               height: 120,
-//               child: FutureBuilder<List<OneCategorieViewModel>>(
-//                 future: datacategorie.FetchAllCategories(),
-//                 builder: ((context, snapshot) {
-//                   if (snapshot.connectionState == ConnectionState.waiting) {
-//                     return const Center(child: CircularProgressIndicator());
-//                   } else {
-//                     categories = snapshot.data;
-//                     return ListView.builder(
-//                         shrinkWrap: true,
-//                         scrollDirection: Axis.horizontal,
-//                         itemCount: categories?.length,
-//                         itemBuilder: (context, index) => InkWell(
-//                               onTap: () {
-//                                 setState(() {
-//                                   selectedIndex = index;
-//                                 });
-//                               },
-//                               child: CategorieIconWidget(
-//                                 libelle: categories![index].libelle,
-//                                 backgroundColor: selectedIndex == index
-//                                     ? const Color(0xffD2286A)
-//                                     : Colors.grey,
-//                               ),
-//                             ));
-//                   }
-//                 }),
-//               ),
-//             ),
-//             Container(
-//               margin: const EdgeInsets.only(top: 5, bottom: 5),
-//               child: Column(
-//                 crossAxisAlignment: CrossAxisAlignment.end,
-//                 children: [
-//                   Row(
-//                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                     children: [
-//                       const Padding(
-//                         padding: EdgeInsets.only(left: 20),
-//                         child: Text("Selection le prix",
-//                             style: TextStyle(
-//                               fontFamily: 'AirbnbCereal',
-//                               color: Colors.black,
-//                               fontSize: 18,
-//                               fontWeight: FontWeight.w500,
-//                             )),
-//                       ),
-//                       Padding(
-//                         padding: const EdgeInsets.only(right: 20),
-//                         child: Text("${_currentSliderValue.toInt()}",
-//                             style: const TextStyle(
-//                               fontFamily: 'AirbnbCereal',
-//                               color: Colors.black,
-//                               fontSize: 18,
-//                               fontWeight: FontWeight.w500,
-//                             )),
-//                       ),
-//                     ],
-//                   ),
-//                   Padding(
-//                     padding: const EdgeInsets.all(8.0),
-//                     child: Slider(
-//                       value: _currentSliderValue,
-//                       max: 100,
-//                       divisions: 100,
-//                       label: _currentSliderValue.round().toString(),
-//                       onChanged: (double value) {
-//                         setState(() {
-//                           _currentSliderValue = value;
-//                         });
-//                       },
-//                     ),
-//                   ),
-//                 ],
-//               ),
-//             ),
-//             Container(
-//               margin: const EdgeInsets.only(
-//                   left: 20.0, right: 20.0, top: 5, bottom: 5),
-//               child: TextFormField(
-//                 decoration: textFieldDecoration(
-//                   "publicite",
-//                   "entre le publicite",
-//                 ),
-//                 validator: (value) {
-//                   if (value!.isEmpty) {
-//                     return "entre publicite";
-//                   } else {
-//                     return null;
-//                   }
-//                 },
-//                 onChanged: (text) {
-//                   descriptionfield = text;
-//                 },
-//               ),
-//             ),
-//             InkWell(
-//                 onTap: () {
-//                   if (formkey.currentState!.validate()) {
-//                     var mesure = {
-//                       "category_id": categories![selectedIndex].id,
-//                       "observation_id": 21,
-//                       "libelle": libellefield,
-//                       "description": descriptionfield,
-//                       "prix": _currentSliderValue.toInt(),
-//                       "date_heure": _dataTime.toString(),
-//                       "adresse": "Stade du 26 Mars",
-//                       "nbre_tichet": 1000,
-//                       "status": "statut",
-//                       "image": "image"
-//                     };
+class _AddmesureState extends State<Addmesure> {
+  final formkey = GlobalKey<FormState>();
+  String textbutton = "save";
 
-//                     AddMesureModel mesureformJson = AddMesureModel.fromJson(mesure);
-//                     //  print(mesureformJson);
+  late String Mesurefield;
+  // ignore: non_constant_identifier_names
+  late String DescriptionField;
+  late String dateMesurefield;
+  String? token;
+  // String? date;
+  // String? dateFormatted;
+  // String? now;
+  // String? imagefini;
+  String? id;
+  var data = MesuresViewModel(mesuresRepository: MesuresApi());
 
-//                     setState(() {
-//                       data.AddMesure(mesureformJson);
-//                     });
-//                   }
-//                 },
-//                 child: MediumButton(text: "APPLIQUER")),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Details mesure screen'),
+
+        backgroundColor: const Color(0xFFFF8000), // appbar color.
+        foregroundColor: const Color.fromARGB(255, 255, 255, 255),
+      ),
+      body: Center(
+        child: SingleChildScrollView(
+          child: Form(
+            key: formkey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                //Text(widget.text),
+                Padding(
+                    padding: EdgeInsets.all(15),
+                    child: FutureBuilder(
+                      // future: addMesureViewModel.getdate(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const CircularProgressIndicator();
+                        } else {
+                          var datenow = snapshot.data;
+                          return TextFormField(
+                            controller: TextEditingController(text: "$datenow"),
+
+                            //initialValue: "$datenow",
+
+                            decoration: const InputDecoration(
+                              filled: true,
+                              fillColor: Color(0xFFF2F2F2),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(4)),
+                                borderSide: BorderSide(
+                                    width: 1, color: Color(0xFFFF8000)),
+                              ),
+                              border: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(4)),
+                                  borderSide: BorderSide(
+                                    width: 1,
+                                  )),
+                              labelText: 'date de mesure',
+                              labelStyle: TextStyle(
+                                color: Color.fromARGB(
+                                    255, 114, 59, 3), //<-- SEE HERE
+                              ),
+                              hintText: 'entre le date de mesure',
+                            ),
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Enter your Name";
+                              } else {
+                                dateMesurefield = datenow.toString();
+                                return null;
+                              }
+                            },
+                            onChanged: (text) {
+                              dateMesurefield = text;
+                            },
+                          );
+                        }
+                      },
+                    )),
+                Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: TextFormField(
+                    controller: TextEditingController(),
+                    decoration: const InputDecoration(
+                      filled: true,
+                      fillColor: Color(0xFFF2F2F2),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(4)),
+                        borderSide:
+                            BorderSide(width: 1, color: Color(0xFFFF8000)),
+                      ),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(4)),
+                          borderSide: BorderSide(
+                            width: 1,
+                          )),
+                      labelText: 'mesure',
+                      labelStyle: TextStyle(
+                        color: Color.fromARGB(255, 114, 59, 3), //<-- SEE HERE
+                      ),
+                      hintText: 'entre votre mesure',
+                    ),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "entre votre mesure";
+                      } else {
+                        return null;
+                      }
+                    },
+                    onChanged: (text) {
+                      Mesurefield = text;
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: TextFormField(
+                    // ignore: prefer_const_constructors
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: const Color(0xFFF2F2F2),
+                      focusedBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(4)),
+                        borderSide:
+                            BorderSide(width: 1, color: Color(0xFFFF8000)),
+                      ),
+                      border: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(4)),
+                          borderSide: BorderSide(
+                            width: 1,
+                          )),
+                      labelText: 'description',
+                      labelStyle: const TextStyle(
+                        color: Color.fromARGB(255, 114, 59, 3), //<-- SEE HERE
+                      ),
+                      hintText: 'entre une description',
+                    ),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "entre une description";
+                      } else {
+                        return null;
+                      }
+                    },
+                    onChanged: (text) {
+                      DescriptionField = text;
+                    },
+                  ),
+                ),
+
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    ElevatedButton(
+                      onPressed: () {},
+                      child: const Icon(Icons.photo),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {},
+                      child: const Icon(Icons.camera_alt),
+                    ),
+                  ],
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: const Color(0xFFFF8000),
+                      shadowColor: const Color.fromARGB(162, 255, 128, 0),
+                      elevation: 3,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(32.0)),
+                      minimumSize:
+                          const Size(double.infinity, 50), //////// HERE
+                    ),
+                    onPressed: () {
+                      if (formkey.currentState!.validate()) {
+                        setState(() {
+                          data.AddMesure(dateMesurefield, Mesurefield,
+                              DescriptionField, widget.id);
+                        });
+                      }
+                    },
+                    child: const Text('save',
+                        style: TextStyle(
+                          fontSize: 20,
+                        )),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

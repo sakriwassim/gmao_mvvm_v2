@@ -3,7 +3,6 @@ import 'package:gmao_mvvm_v2/counters/models_counters/counter_model.dart';
 import '../../mesures/views_mesures/mesures_view.dart';
 import '../counters_repositories/counters_api.dart';
 import '../view_model_events/counters_view_model.dart';
-import '../view_model_events/one_counter_view_model.dart';
 import '../wigdets/counter_card.dart';
 import 'package:flutter_offline/flutter_offline.dart';
 
@@ -67,7 +66,7 @@ class _GetAllCounterViewState extends State<GetAllCounterView> {
                 return Future.delayed(const Duration(seconds: 2));
               },
               child: Center(
-                child: FutureBuilder<List<OneCounterViewModel>>(
+                child: FutureBuilder<List<CounterModel>>(
                   future: data.FetchAllCounters(),
                   builder: ((context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
@@ -91,7 +90,7 @@ class _GetAllCounterViewState extends State<GetAllCounterView> {
                                 code: counters![index].code,
                                 designation: counters[index].designation,
                                 equipmentDesignation:
-                                    "counters![index].equipmentDesignation",
+                                    counters![index].equipmentDesignation,
                                 equipmentLocalization:
                                     counters[index].equipmentLocalization,
                                 id: counters[index].id,

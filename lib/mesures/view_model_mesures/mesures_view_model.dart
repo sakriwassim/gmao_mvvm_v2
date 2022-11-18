@@ -34,8 +34,10 @@ class MesuresViewModel {
     return true;
   }
 
-  Future<bool> AddMesure(AddMesureModel addMesureModel) async {
-    var mesure = await mesuresRepository!.addMesure(addMesureModel);
+  Future<bool> AddMesure(String dateMesurefield, String Mesurefield,
+      String DescriptionField, String id) async {
+    var mesure = await mesuresRepository!
+        .addMesure(dateMesurefield, Mesurefield, DescriptionField, id);
     return true;
   }
 

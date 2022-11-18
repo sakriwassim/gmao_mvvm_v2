@@ -14,11 +14,6 @@ class MesuresLocal extends MesuresRepository {
   }
 
   @override
-  Future<bool> addMesure(AddMesureModel addMesureModel) {
-    throw UnimplementedError();
-  }
-
-  @override
   Future<bool> deleteMesureByID(int id) {
     throw UnimplementedError();
   }
@@ -36,6 +31,13 @@ class MesuresLocal extends MesuresRepository {
   @override
   Future<MesureModel> getMesureByID(String id) {
     // TODO: implement getMesureByID
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<bool> addMesure(String dateMesurefield, String Mesurefield,
+      String DescriptionField, String id) {
+    // TODO: implement addMesure
     throw UnimplementedError();
   }
 }

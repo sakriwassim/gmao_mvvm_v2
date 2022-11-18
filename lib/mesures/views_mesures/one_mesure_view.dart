@@ -1,43 +1,47 @@
 import 'package:flutter/material.dart';
 
 import '../../core/constants.dart';
+import '../../counters/views_events/update_counter_view.dart';
+import '../../counters/wigdets/button_widget.dart';
 
-class OneMesureView extends StatefulWidget {
-  final String? id;
-  final String? counterCode;
-  final double? measure;
-  final String? dateMeasure;
-  final String? comments;
+class MesureDetails extends StatefulWidget {
+  final String counterfromgetcouter;
+  final String id;
+  final String counterCode;
+  final double measure;
+  final String dateMeasure;
+  final String comments;
+  final int indextabmesure;
 
-  const OneMesureView(
-      {Key? key,
-      this.id,
-      this.counterCode,
-      this.measure,
-      this.comments,
-      this.dateMeasure})
-      : super(key: key);
+  const MesureDetails({
+    Key? key,
+    required this.counterfromgetcouter,
+    required this.id,
+    required this.counterCode,
+    required this.measure,
+    required this.comments,
+    required this.indextabmesure,
+    required this.dateMeasure,
+  }) : super(key: key);
 
   @override
-  State<OneMesureView> createState() => _OneMesureViewState();
+  State<MesureDetails> createState() => _MesureDetailsState();
 }
 
-class _OneMesureViewState extends State<OneMesureView> {
+class _MesureDetailsState extends State<MesureDetails> {
   String textbutton = "update";
 
-  // callback() {
-  //   //  String id = id
-  //   Navigator.pushReplacement(
-  //       context,
-  //       MaterialPageRoute(
-  //         builder: (context) => UpdateScreen(
-  //             text: widget.id,
-  //             indextabmesure: widget.indextabmesure,
-  //             counterfromgetcouter: widget.counterfromgetcouter,
-  //             authentificationtoken: widget.authentificationtoken,
-  //             dateMeasure: widget.dateMeasure),
-  //       ));
-  // }
+  callback() {
+    //  String id = id
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => UpdateScreen(
+            id: widget.id,
+            indextabmesure: widget.indextabmesure,
+          ),
+        ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +91,7 @@ class _OneMesureViewState extends State<OneMesureView> {
                             // child: CircleAvatar(
                             //   radius: 100,
                             //   backgroundImage:
-                            //       AssetImage('assets/images/image1.png'),
+                            //       AssetImage('assets/images/image2.png'),
                             // ),
                             ),
                       ),
@@ -113,6 +117,7 @@ class _OneMesureViewState extends State<OneMesureView> {
                   vertical: kDefaultPadding / 2,
                 ),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(15),
@@ -128,6 +133,7 @@ class _OneMesureViewState extends State<OneMesureView> {
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
+                    
                     Padding(
                       padding: const EdgeInsets.all(15),
                       child: Text(
@@ -135,7 +141,7 @@ class _OneMesureViewState extends State<OneMesureView> {
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
-                    //  Button(textbutton: textbutton, callbackFunction: callback),
+                    Button(textbutton: textbutton, callbackFunction: callback),
                   ],
                 ),
               ),

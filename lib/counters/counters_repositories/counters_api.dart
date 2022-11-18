@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:gmao_mvvm_v2/counters/models_counters/add_counter_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -7,7 +8,7 @@ import 'counter_repository.dart';
 
 class CountersApi extends CountersRepository {
   @override
-  Future<CounterModel> getCounterByID(int id) async {
+  Future<CounterModel> getCounterByID(String id) async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       var token = prefs.getString("token");
@@ -61,37 +62,120 @@ class CountersApi extends CountersRepository {
     }
   }
 
-  //  @override
-  // Future<CounterModel> updateCounterByID(CounterModel counterModel) async {
-  //   try {
-  //     SharedPreferences prefs = await SharedPreferences.getInstance();
-  //     var token = prefs.getString("token");
-  //     final counterId = counterModel.id;
-  //     final counterModelJson = counterModel.toJSON();
+  @override
+  Future<bool> updateCounterByID(String dateMesurefield, String Mesurefield,
+      String DescriptionField, String id, int indextabmesure) async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      // var token = prefs.getString("token");
+      // final counterId = addcounterModel.id;
+      // final counterModelJson = addcounterModel.toJson();
 
-  //     var headers = {
-  //       'Content-type': 'application/json',
-  //       "Accept": "application/json",
-  //       'authorization': 'Bearer $token',
-  //     };
+      var token =
+          "ZZQ7D9_Ymble3Dm-vwd-ofRN_KNP07g31qTXvMHw1s9A7BOpFDxZ2uEsoqMG6HG7uc3prdXGfp729kssQHUo3IitxBPftE5s11Ss1oEzYg4WlrSSoE5Jxaqu0Zf1Ncb3PuAfrOh7_CgqYcx-NLHTMHujJUuVnnUMDGVdyOo7q4XCtkN7bQIqrWlH_KuWytfI0YjNsFTF0LbfcgFjp85uunMbT2kgXy5I1g1XY6D0dRGuPIYeXp_zv7iAJ1nQJcVVP2M6XCjdJ2rXl3nKofffK7mlJ6Q6BG1oUKiHIyxhGEip1uD_G9UEvPrubgr1xuFP4LNSE9tWz--DDetkbFucQqoOsYpNfe_CLH3fanvFGNiaM1JfZTq4q1lElc1qX9MArWM5w_9I8LAaG5Ng6twGA2GvHR8662pnIxmPzSpbYV9f_9ssvhCdOrqlPEHdTYDREovlZr4VQ0dd7zcBIjSJ3E8QN3h-IeIAr1LxwvYi7II";
 
-  //     final body = counterModelJson;
+      String link =
+          'https://timserver.northeurope.cloudapp.azure.com/GmaoProWebApi/api/Counters/$id';
 
-  //     String link =
-  //         'https://frozen-refuge-80965.herokuapp.com/api/v1/Counters/$counterId';
+      var url = Uri.parse(link);
 
-  //     var url = Uri.parse(link);
+      var headersa = {
+        'Content-type': 'application/json',
+        "Accept": "application/json",
+        'authorization': 'Bearer ' '$token',
+      };
 
-  //     http.Response response = await http.put(url,
-  //         headers: headers, body: json.encode(counterModelJson));
-  //     var responsebody = jsonDecode(response.body);
-  //     // print(counterModelJson);
-  //     // print(responsebody);
-  //   } catch (e) {
-  //     print(e);
-  //   }
+      var responseget = await http.get(url, headers: headersa);
+      var responsebodyget = jsonDecode(responseget.body);
 
-  //   return counterModel;
-  // }
+      AddCounterModel counter = AddCounterModel.toObject(responsebodyget);
 
+      var countercode = counter.code;
+
+      http.Response response = await http.put(
+        url,
+        headers: {
+          'Content-type': 'application/json',
+          "Accept": "application/json",
+          'authorization': 'Bearer ' '$token',
+        },
+        body: json.encode({
+          "code": counter.code,
+          "designation": counter.designation,
+          "fullDesignation": counter.fullDesignation,
+          "description": counter.description,
+          "equipmentId": counter.equipmentId,
+          "equipmentCode": counter.equipmentCode,
+          "equipmentDesignation": counter.equipmentDesignation,
+          "equipmentFullDesignation": counter.equipmentFullDesignation,
+          "equipmentLocalization": counter.equipmentLocalization,
+          "equipmentNature": counter.equipmentNature,
+          "equipmentInternalBarcode": counter.equipmentInternalBarcode,
+          "unitMeasureId": counter.unitMeasureId,
+          "unitMeasureCode": counter.unitMeasureCode,
+          "unitMeasureDesignation": counter.unitMeasureDesignation,
+          "unitMeasureFullDesignation": counter.unitMeasureFullDesignation,
+          "maxValue": counter.maxValue,
+          "alertValue": counter.alertValue,
+          "type": counter.type,
+          "isEnabled": counter.isEnabled,
+          "disabledDate": counter.disabledDate,
+          "measures": [
+            {
+              "counterId": counter.measures[indextabmesure].counterId,
+              "counterCode": counter.measures[indextabmesure].counterCode,
+              "counterUnitMeasureId":
+                  counter.measures[indextabmesure].counterUnitMeasureId,
+              "counterUnitMeasureCode":
+                  counter.measures[indextabmesure].counterUnitMeasureCode,
+              "counterUnitMeasureDesignation": counter
+                  .measures[indextabmesure].counterUnitMeasureDesignation,
+              "unitMeasureFullDesignation":
+                  counter.measures[indextabmesure].unitMeasureFullDesignation,
+              "counterMaxValue":
+                  counter.measures[indextabmesure].counterMaxValue,
+              "dateMeasure": "2022-10-16T17:22:14",
+              "measure": Mesurefield,
+              "comments": DescriptionField,
+              "id": counter.measures[indextabmesure].id,
+              "createdDate": counter.measures[indextabmesure].createdDate,
+              "createdBy": counter.measures[indextabmesure].createdBy,
+              "updatedDate": counter.measures[indextabmesure].updatedDate,
+              "updatedBy": counter.measures[indextabmesure].updatedBy,
+              "crudFrom": counter.measures[indextabmesure].crudFrom,
+              "currentUserId": counter.measures[indextabmesure].currentUserId,
+              "currentEmployeeId":
+                  counter.measures[indextabmesure].currentEmployeeId,
+              "isSystem": counter.measures[indextabmesure].isSystem,
+              "crud": 2
+            }
+          ],
+          "counterTeams": counter.counterTeams,
+          "lastDateMeasure": counter.lastDateMeasure,
+          "lastMeasure": counter.lastMeasure,
+          "equipmentNatureStr": counter.equipmentNatureStr,
+          "siteId": counter.siteId,
+          "siteName": counter.siteName,
+          "companyId": counter.companyId,
+          "id": counter.id,
+          "createdDate": counter.createdDate,
+          "createdBy": counter.createdBy,
+          "updatedDate": counter.updatedDate,
+          "updatedBy": counter.updatedBy,
+          "crudFrom": counter.crudFrom,
+          "currentUserId": counter.currentUserId,
+          "currentEmployeeId": counter.currentEmployeeId,
+          "isSystem": counter.isSystem,
+          "crud": counter.crud
+        }),
+      );
+      var responsebody = jsonDecode(response.body);
+      // print(counterModelJson);
+      print(responsebody);
+    } catch (e) {
+      print(e);
+    }
+
+    return true;
+  }
 }

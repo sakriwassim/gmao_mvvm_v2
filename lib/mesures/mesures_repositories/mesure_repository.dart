@@ -6,6 +6,7 @@ abstract class MesuresRepository {
   Future<List<MesureModel>> getAllMesures();
   Future<MesureModel> getMesureByID(String id);
   Future<MesureModel> updateMesureByID(MesureModel mesureModel);
-  Future<bool> addMesure(AddMesureModel addMesureModel);
+  Future<bool> addMesure(String dateMesurefield, String Mesurefield,
+      String DescriptionField, String id);
   Future<bool> deleteMesureByID(int id);
 }

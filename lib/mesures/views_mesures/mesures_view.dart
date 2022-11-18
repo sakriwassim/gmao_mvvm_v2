@@ -5,10 +5,12 @@ import '../../counters/wigdets/counter_card.dart';
 import '../mesures_repositories/mesures_api.dart';
 import '../view_model_mesures/mesures_view_model.dart';
 import '../view_model_mesures/one_mesure_view_model.dart';
+import 'add_mesure_view.dart';
 import 'one_mesure_view.dart';
+import 'widgets/mesure_card_widget.dart';
 
 class GetAllMesureView extends StatefulWidget {
-  String id;
+  String? id;
   GetAllMesureView({super.key, required this.id});
 
   @override
@@ -17,7 +19,7 @@ class GetAllMesureView extends StatefulWidget {
 
 class _GetAllMesureViewState extends State<GetAllMesureView> {
   var data = MesuresViewModel(mesuresRepository: MesuresApi());
-
+  //var id = widget.id;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,14 +64,14 @@ class _GetAllMesureViewState extends State<GetAllMesureView> {
             return RefreshIndicator(
               onRefresh: () async {
                 setState(() {
-                  data.GetMesureByCounter(widget.id);
+                  data.GetMesureByCounter(widget.id.toString());
                 });
 
                 return Future.delayed(const Duration(seconds: 2));
               },
               child: Center(
                 child: FutureBuilder<List<OneMesureViewModel>>(
-                  future: data.GetMesureByCounter(widget.id),
+                  future: data.GetMesureByCounter(widget.id.toString()),
                   builder: ((context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const CircularProgressIndicator();
@@ -82,26 +84,25 @@ class _GetAllMesureViewState extends State<GetAllMesureView> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => OneMesureView(
-                                            id: mesures[index].id,
-                                            comments: mesures[index].comments,
+                                      builder: (context) => MesureDetails(
+                                            id: mesures[index].counterId,
+                                            indextabmesure: index,
+                                            comments: mesures[index].counterId,
                                             counterCode:
-                                                mesures[index].counterCode,
+                                                mesures[index].counterId,
+                                            counterfromgetcouter:
+                                                mesures[index].counterId,
                                             dateMeasure:
-                                                mesures[index].dateMeasure,
+                                                mesures[index].counterId,
                                             measure: mesures[index].measure,
                                           )),
                                 );
                               },
-                              child: CounterCard(
-                                description: mesures![index].counterCode,
-                                code: mesures![index].counterCode,
-                                designation: "mesures![index].counterCode",
-                                equipmentDesignation:
-                                    "counters![index].equipmentDesignation",
-                                equipmentLocalization:
-                                    mesures![index].counterCode,
-                                id: mesures![index].counterCode,
+                              child: MesureCard(
+                                comments: mesures![index].comments,
+                                counterCode: mesures![index].counterCode,
+                                dateMeasure: mesures![index].dateMeasure,
+                                measure: mesures![index].measure,
                               )));
                     }
                   }),
@@ -124,6 +125,31 @@ class _GetAllMesureViewState extends State<GetAllMesureView> {
               'Just turn off your internet.',
             ),
           ],
+        ),
+      ),
+      bottomNavigationBar: SizedBox(
+        height: 50,
+        width: double.infinity,
+        child: TextButton(
+          onPressed: () {
+            var id = widget.id;
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Addmesure(
+                    id: id.toString(),
+                  ),
+                ));
+          },
+          style: ButtonStyle(
+              backgroundColor:
+                  MaterialStateProperty.all(const Color(0xFFFF8000))),
+          child: const Text(
+            'Ajouter mesure',
+            style: TextStyle(
+              color: Color.fromARGB(255, 255, 255, 255),
+            ),
+          ),
         ),
       ),
     );

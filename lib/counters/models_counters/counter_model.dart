@@ -28,6 +28,7 @@ class CounterModel {
   double? latestMeasureValue;
   double? latestConsumptionValue;
   List<Measures>? measures;
+  List<CounterTeams>? counterTeams;
   String? lastDateMeasure;
   double? lastMeasure;
   String? equipmentNatureStr;
@@ -196,6 +197,107 @@ class CounterModel {
     data['isShared'] = this.isShared;
     data['sharedWith'] = this.sharedWith;
     data['isBookmark'] = this.isBookmark;
+    data['createdDate'] = this.createdDate;
+    data['createdBy'] = this.createdBy;
+    data['updatedDate'] = this.updatedDate;
+    data['updatedBy'] = this.updatedBy;
+    data['crudFrom'] = this.crudFrom;
+    data['id'] = this.id;
+    data['currentUserId'] = this.currentUserId;
+    data['currentEmployeeId'] = this.currentEmployeeId;
+    data['isSystem'] = this.isSystem;
+    data['crud'] = this.crud;
+    return data;
+  }
+}
+
+class CounterTeams {
+  String? counterId;
+  bool? roleIsSupervisor;
+  bool? roleIsMember;
+  bool? roleIsInformed;
+  String? roleComments;
+  String? legacyId;
+  int? typeLegacy;
+  String? employeeId;
+  String? employeeSerialNumber;
+  String? employeeFullName;
+  String? employeeEmail;
+  bool? employeeIsEnabled;
+  String? createdDate;
+  String? createdBy;
+  String? updatedDate;
+  String? updatedBy;
+  int? crudFrom;
+  String? id;
+  String? currentUserId;
+  String? currentEmployeeId;
+  bool? isSystem;
+  int? crud;
+
+  CounterTeams(
+      {this.counterId,
+      this.roleIsSupervisor,
+      this.roleIsMember,
+      this.roleIsInformed,
+      this.roleComments,
+      this.legacyId,
+      this.typeLegacy,
+      this.employeeId,
+      this.employeeSerialNumber,
+      this.employeeFullName,
+      this.employeeEmail,
+      this.employeeIsEnabled,
+      this.createdDate,
+      this.createdBy,
+      this.updatedDate,
+      this.updatedBy,
+      this.crudFrom,
+      this.id,
+      this.currentUserId,
+      this.currentEmployeeId,
+      this.isSystem,
+      this.crud});
+
+  CounterTeams.fromJson(Map<String, dynamic> json) {
+    counterId = json['counterId'];
+    roleIsSupervisor = json['roleIsSupervisor'];
+    roleIsMember = json['roleIsMember'];
+    roleIsInformed = json['roleIsInformed'];
+    roleComments = json['roleComments'];
+    legacyId = json['legacyId'];
+    typeLegacy = json['typeLegacy'];
+    employeeId = json['employeeId'];
+    employeeSerialNumber = json['employeeSerialNumber'];
+    employeeFullName = json['employeeFullName'];
+    employeeEmail = json['employeeEmail'];
+    employeeIsEnabled = json['employeeIsEnabled'];
+    createdDate = json['createdDate'];
+    createdBy = json['createdBy'];
+    updatedDate = json['updatedDate'];
+    updatedBy = json['updatedBy'];
+    crudFrom = json['crudFrom'];
+    id = json['id'];
+    currentUserId = json['currentUserId'];
+    currentEmployeeId = json['currentEmployeeId'];
+    isSystem = json['isSystem'];
+    crud = json['crud'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['counterId'] = this.counterId;
+    data['roleIsSupervisor'] = this.roleIsSupervisor;
+    data['roleIsMember'] = this.roleIsMember;
+    data['roleIsInformed'] = this.roleIsInformed;
+    data['roleComments'] = this.roleComments;
+    data['legacyId'] = this.legacyId;
+    data['typeLegacy'] = this.typeLegacy;
+    data['employeeId'] = this.employeeId;
+    data['employeeSerialNumber'] = this.employeeSerialNumber;
+    data['employeeFullName'] = this.employeeFullName;
+    data['employeeEmail'] = this.employeeEmail;
+    data['employeeIsEnabled'] = this.employeeIsEnabled;
     data['createdDate'] = this.createdDate;
     data['createdBy'] = this.createdBy;
     data['updatedDate'] = this.updatedDate;

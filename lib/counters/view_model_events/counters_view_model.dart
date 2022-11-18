@@ -1,6 +1,6 @@
 import '../counters_repositories/counter_repository.dart';
+import '../models_counters/add_counter_model.dart';
 import '../models_counters/counter_model.dart';
-import 'one_counter_view_model.dart';
 
 class CountersViewModel {
   String title = "Counter Page ";
@@ -8,21 +8,21 @@ class CountersViewModel {
   CountersRepository? countersRepository;
   CountersViewModel({this.countersRepository});
 
-  Future<List<OneCounterViewModel>> FetchAllCounters() async {
+  Future<List<CounterModel>> FetchAllCounters() async {
     List<CounterModel> list = await countersRepository!.getAllCounters();
-    return list
-        .map((listCounter) => OneCounterViewModel(counterModel: listCounter))
-        .toList();
+    return list;
   }
 
-  Future<OneCounterViewModel> GetCounterByID(int id) async {
+  Future<CounterModel> GetCounterByID(String id) async {
     var counterModel = await countersRepository!.getCounterByID(id);
-    return OneCounterViewModel(counterModel: counterModel);
+    return counterModel;
   }
 
-  // Future<bool> UpdateCounterByID(CounterModel counterModel) async {
-  //   var counter = await countersRepository!.updateCounterByID(counterModel);
-  //   return true;
-  // }
-
+  Future<bool> UpdateCounterByID(String dateMesurefield, String Mesurefield,
+      String DescriptionField, String id, int indextabmesure) async {
+    var counter =
+        await countersRepository!.updateCounterByID( dateMesurefield,  Mesurefield,
+       DescriptionField,  id,  indextabmesure);
+    return true;
+  }
 }
