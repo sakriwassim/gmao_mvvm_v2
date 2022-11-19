@@ -4,8 +4,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 
 import '../../counters/counters_repositories/counters_api.dart';
+import '../../imageupload/images_repositories/images_api.dart';
+import '../../imageupload/view_model_images/images_view_model.dart';
 import '../mesures_repositories/mesures_api.dart';
 import '../view_model_mesures/mesures_view_model.dart';
 
@@ -30,12 +33,29 @@ class _AddmesureState extends State<Addmesure> {
   late String DescriptionField;
   late String dateMesurefield;
   String? token;
-  // String? date;
-  // String? dateFormatted;
-  // String? now;
-  // String? imagefini;
+  String? imagepath;
   String? id;
   var data = MesuresViewModel(mesuresRepository: MesuresApi());
+  var dataimage = ImagesViewModel(imagesRepository: ImagesApi());
+
+  final ImagePicker _picker = ImagePicker();
+  List<XFile>? _imageFileList;
+  dynamic _pickImageError;
+
+  Future<void> _onImageButtonPressed(ImageSource source,
+      {BuildContext? context}) async {
+    try {
+      final XFile? pickedFile = await _picker.pickImage(
+        source: source,
+      );
+
+      imagepath = await dataimage.addImage(pickedFile);
+    } catch (e) {
+      setState(() {
+        _pickImageError = e;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -181,11 +201,17 @@ class _AddmesureState extends State<Addmesure> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        await _onImageButtonPressed(ImageSource.gallery,
+                            context: context);
+                      },
                       child: const Icon(Icons.photo),
                     ),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        await _onImageButtonPressed(ImageSource.camera,
+                            context: context);
+                      },
                       child: const Icon(Icons.camera_alt),
                     ),
                   ],
@@ -207,6 +233,8 @@ class _AddmesureState extends State<Addmesure> {
                     onPressed: () {
                       if (formkey.currentState!.validate()) {
                         setState(() {
+                          // add imagepath to this fonction
+
                           data.AddMesure(dateMesurefield, Mesurefield,
                               DescriptionField, widget.id);
                         });
