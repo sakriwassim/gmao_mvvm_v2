@@ -42,182 +42,162 @@ class _UpdateScreenState extends State<UpdateScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Update'),
+      appBar: AppBar(
+        title: const Text('Update'),
 
-          backgroundColor: const Color(0xFFFF8000), // appbar color.
-          foregroundColor: const Color.fromARGB(255, 255, 255, 255),
-        ),
-        body: FutureBuilder(
-          future: data.GetCounterByID(widget.id.toString()),
-          builder: ((context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const CircularProgressIndicator();
-            } else {
-              var counter = snapshot.data;
-              return Center(
-                child: SingleChildScrollView(
-                  child: Form(
-                    key: formkey,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(15),
-                          child: TextFormField(
-                            controller: TextEditingController(
-                                text: "widget.dateMeasure"),
-                            decoration: const InputDecoration(
-                              filled: true,
-                              fillColor: Color(0xFFF2F2F2),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(4)),
-                                borderSide: BorderSide(
-                                    width: 1, color: Color(0xFFFF8000)),
-                              ),
-                              border: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(4)),
-                                  borderSide: BorderSide(
-                                    width: 1,
-                                  )),
-                              labelText: 'date de mesure',
-                              labelStyle: TextStyle(
-                                color: Color.fromARGB(
-                                    255, 114, 59, 3), //<-- SEE HERE
-                              ),
-                              hintText: 'entre le date de mesure',
-                            ),
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return "entre le date de mesure";
-                              } else {
-                                dateMesurefield = "widget.dateMeasure";
-                                return null;
-                              }
-                            },
-                            onChanged: (text) {
-                              dateMesurefield = text;
-                            },
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(15),
-                          child: TextFormField(
-                            decoration: const InputDecoration(
-                              filled: true,
-                              fillColor: Color(0xFFF2F2F2),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(4)),
-                                borderSide: BorderSide(
-                                    width: 1, color: Color(0xFFFF8000)),
-                              ),
-                              border: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(4)),
-                                  borderSide: BorderSide(
-                                    width: 1,
-                                  )),
-                              labelText: 'mesure',
-                              labelStyle: TextStyle(
-                                color: Color.fromARGB(
-                                    255, 114, 59, 3), //<-- SEE HERE
-                              ),
-                              hintText: 'entre votre mesure ',
-                            ),
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return "entre votre mesure ";
-                              } else {
-                                return null;
-                              }
-                            },
-                            onChanged: (text) {
-                              Mesurefield = text;
-                            },
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(15),
-                          child: TextFormField(
-                            decoration: const InputDecoration(
-                              filled: true,
-                              fillColor: Color(0xFFF2F2F2),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(4)),
-                                borderSide: BorderSide(
-                                    width: 1, color: Color(0xFFFF8000)),
-                              ),
-                              border: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(4)),
-                                  borderSide: BorderSide(
-                                    width: 1,
-                                  )),
-                              labelText: 'description',
-                              labelStyle: TextStyle(
-                                color: Color.fromARGB(
-                                    255, 114, 59, 3), //<-- SEE HERE
-                              ),
-                              hintText: 'entre votre description ',
-                            ),
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return "entre votre description ";
-                              } else {
-                                return null;
-                              }
-                            },
-                            onChanged: (text) {
-                              DescriptionField = text;
-                            },
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              foregroundColor: Colors.white,
-                              backgroundColor: const Color(0xFFFF8000),
-                              shadowColor:
-                                  const Color.fromARGB(162, 255, 128, 0),
-                              elevation: 3,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(32.0)),
-                              minimumSize:
-                                  Size(double.infinity, 50), //////// HERE
-                            ),
-                            onPressed: () {
-                              if (formkey.currentState!.validate()) {
-                                // AddCounterModel eventformJson =
-                                //     AddCounterModel.toObject(event);
-
-                                setState(() {
-                                  data.UpdateCounterByID(
-                                      dateMesurefield,
-                                      Mesurefield,
-                                      DescriptionField,
-                                      widget.id,
-                                      widget.indextabmesure);
-                                });
-                              }
-                            },
-                            child: const Text('update mesure',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                )),
-                          ),
-                        ),
-                      ],
+        backgroundColor: const Color(0xFFFF8000), // appbar color.
+        foregroundColor: const Color.fromARGB(255, 255, 255, 255),
+      ),
+      body: Center(
+        child: SingleChildScrollView(
+          child: Form(
+            key: formkey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: TextFormField(
+                    controller:
+                        TextEditingController(text: "widget.dateMeasure"),
+                    decoration: const InputDecoration(
+                      filled: true,
+                      fillColor: Color(0xFFF2F2F2),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(4)),
+                        borderSide:
+                            BorderSide(width: 1, color: Color(0xFFFF8000)),
+                      ),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(4)),
+                          borderSide: BorderSide(
+                            width: 1,
+                          )),
+                      labelText: 'date de mesure',
+                      labelStyle: TextStyle(
+                        color: Color.fromARGB(255, 114, 59, 3), //<-- SEE HERE
+                      ),
+                      hintText: 'entre le date de mesure',
                     ),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "entre le date de mesure";
+                      } else {
+                        dateMesurefield = "date";
+                        return null;
+                      }
+                    },
+                    onChanged: (text) {
+                      dateMesurefield = text;
+                    },
                   ),
                 ),
-              );
-            }
-          }),
-        ));
+                Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                      filled: true,
+                      fillColor: Color(0xFFF2F2F2),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(4)),
+                        borderSide:
+                            BorderSide(width: 1, color: Color(0xFFFF8000)),
+                      ),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(4)),
+                          borderSide: BorderSide(
+                            width: 1,
+                          )),
+                      labelText: 'mesure',
+                      labelStyle: TextStyle(
+                        color: Color.fromARGB(255, 114, 59, 3), //<-- SEE HERE
+                      ),
+                      hintText: 'entre votre mesure ',
+                    ),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "entre votre mesure ";
+                      } else {
+                        return null;
+                      }
+                    },
+                    onChanged: (text) {
+                      Mesurefield = text;
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                      filled: true,
+                      fillColor: Color(0xFFF2F2F2),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(4)),
+                        borderSide:
+                            BorderSide(width: 1, color: Color(0xFFFF8000)),
+                      ),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(4)),
+                          borderSide: BorderSide(
+                            width: 1,
+                          )),
+                      labelText: 'description',
+                      labelStyle: TextStyle(
+                        color: Color.fromARGB(255, 114, 59, 3), //<-- SEE HERE
+                      ),
+                      hintText: 'entre votre description ',
+                    ),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "entre votre description ";
+                      } else {
+                        return null;
+                      }
+                    },
+                    onChanged: (text) {
+                      DescriptionField = text;
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: const Color(0xFFFF8000),
+                      shadowColor: const Color.fromARGB(162, 255, 128, 0),
+                      elevation: 3,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(32.0)),
+                      minimumSize: Size(double.infinity, 50), //////// HERE
+                    ),
+                    onPressed: () {
+                      if (formkey.currentState!.validate()) {
+                        // AddCounterModel eventformJson =
+                        //     AddCounterModel.toObject(event);
+
+                        setState(() {
+                          data.UpdateCounterByID(
+                              dateMesurefield,
+                              Mesurefield,
+                              DescriptionField,
+                              widget.id,
+                              widget.indextabmesure);
+                        });
+                      }
+                    },
+                    child: const Text('update mesure',
+                        style: TextStyle(
+                          fontSize: 20,
+                        )),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

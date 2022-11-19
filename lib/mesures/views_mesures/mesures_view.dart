@@ -87,13 +87,11 @@ class _GetAllMesureViewState extends State<GetAllMesureView> {
                                       builder: (context) => MesureDetails(
                                             id: mesures[index].counterId,
                                             indextabmesure: index,
-                                            comments: mesures[index].counterId,
+                                            comments: mesures[index].comments,
                                             counterCode:
-                                                mesures[index].counterId,
-                                            counterfromgetcouter:
-                                                mesures[index].counterId,
+                                                mesures[index].counterCode,
                                             dateMeasure:
-                                                mesures[index].counterId,
+                                                mesures[index].dateMeasure,
                                             measure: mesures[index].measure,
                                           )),
                                 );

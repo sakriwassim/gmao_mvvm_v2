@@ -24,10 +24,10 @@ class MesuresViewModel {
   //       .toList();
   // }
 
-  // Future<OneMesureViewModel> GetMesureByID(int id) async {
-  //   var mesureModel = await mesuresRepository!.getMesureByID();
-  //   return OneMesureViewModel(mesureModel: mesureModel);
-  // }
+  Future<OneMesureViewModel> GetMesureByID(String id) async {
+    var mesureModel = await mesuresRepository!.getMesureByID(id);
+    return OneMesureViewModel(mesureModel: mesureModel);
+  }
 
   Future<bool> UpdateMesureByID(MesureModel mesureModel) async {
     var mesure = await mesuresRepository!.updateMesureByID(mesureModel);

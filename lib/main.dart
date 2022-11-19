@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gmao_mvvm_v2/splash_screen.dart';
 
 import 'counters/views_events/counters_view.dart';
 import 'mesures/views_mesures/mesures_view.dart';
@@ -14,11 +15,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const GetAllCounterView(),
+      debugShowCheckedModeBanner: false,
+      home: SplashScreen(),
     );
   }
 }

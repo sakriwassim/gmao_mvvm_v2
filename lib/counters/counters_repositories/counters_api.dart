@@ -1,12 +1,20 @@
 import 'dart:convert';
 import 'package:gmao_mvvm_v2/counters/models_counters/add_counter_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models_counters/counter_model.dart';
 import 'counter_repository.dart';
 
 class CountersApi extends CountersRepository {
+
+  @override
+  getdate() {
+    var now = DateTime.now();
+    var dateFormatted = DateFormat("yyyy-MM-ddTHH:mm:ss").format(now);
+    return dateFormatted;
+  }
   @override
   Future<CounterModel> getCounterByID(String id) async {
     try {
