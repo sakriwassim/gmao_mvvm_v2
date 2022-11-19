@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:gmao_mvvm_v2/signin_screen.dart';
+import 'package:gmao_mvvm_v2/signin/signin_screen.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'counters/views_events/counters_view.dart';
+import '../counters/views_events/counters_view.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

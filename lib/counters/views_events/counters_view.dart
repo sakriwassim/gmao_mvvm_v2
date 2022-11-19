@@ -1,10 +1,20 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gmao_mvvm_v2/counters/models_counters/counter_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../mesures/mesures_repositories/mesures_api.dart';
+import '../../mesures/view_model_mesures/mesures_view_model.dart';
+import '../../mesures/view_model_mesures/one_mesure_view_model.dart';
 import '../../mesures/views_mesures/mesures_view.dart';
+import '../../signin/signin_screen.dart';
 import '../counters_repositories/counters_api.dart';
 import '../view_model_events/counters_view_model.dart';
 import '../wigdets/counter_card.dart';
 import 'package:flutter_offline/flutter_offline.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
 class GetAllCounterView extends StatefulWidget {
   const GetAllCounterView({super.key});
@@ -14,6 +24,55 @@ class GetAllCounterView extends StatefulWidget {
 }
 
 class _GetAllCounterViewState extends State<GetAllCounterView> {
+  bool isUserSignedIn = false;
+  String _scanBarcode = 'Unknown';
+  List tasks = [];
+  var datamesure = MesuresViewModel(mesuresRepository: MesuresApi());
+
+  String? token;
+  String? elementcheck;
+
+  Future<void> scanQR() async {
+    String barcodeScanRes;
+    try {
+      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+          "#ff6666", "Cancel", true, ScanMode.QR);
+      print(barcodeScanRes);
+    } on PlatformException {
+      barcodeScanRes = 'Failed to get platform version.';
+    }
+
+    if (!mounted) return;
+
+    setState(() {
+      _scanBarcode = barcodeScanRes;
+
+      var list = datamesure.GetMesureByCounter(_scanBarcode);
+
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => GetAllMesureView(
+              id: _scanBarcode,
+            ),
+          ));
+    });
+  }
+
+  cleanpref() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.clear();
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Signin(),
+          ));
+    } catch (e) {
+      print(e);
+    }
+  }
+
   var data = CountersViewModel(countersRepository: CountersApi());
 
   @override
@@ -27,7 +86,7 @@ class _GetAllCounterViewState extends State<GetAllCounterView> {
             child: IconButton(
                 icon: Icon(Icons.qr_code),
                 onPressed: () {
-                  //  scanQR();
+                  scanQR();
                 }
                 // scanQR(),
                 ),
@@ -37,7 +96,7 @@ class _GetAllCounterViewState extends State<GetAllCounterView> {
             child: IconButton(
                 icon: const Icon(Icons.logout),
                 onPressed: () {
-                  //  cleanpref();
+                  cleanpref();
                 }
                 // => scanQR(),
                 ),

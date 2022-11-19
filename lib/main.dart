@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gmao_mvvm_v2/splash_screen.dart';
+import 'package:gmao_mvvm_v2/entry/splash_screen.dart';
 
 import 'counters/views_events/counters_view.dart';
 import 'mesures/views_mesures/mesures_view.dart';

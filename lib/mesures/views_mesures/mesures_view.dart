@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_offline/flutter_offline.dart';
 
-import '../../counters/wigdets/counter_card.dart';
 import '../mesures_repositories/mesures_api.dart';
 import '../view_model_mesures/mesures_view_model.dart';
 import '../view_model_mesures/one_mesure_view_model.dart';
@@ -19,35 +18,12 @@ class GetAllMesureView extends StatefulWidget {
 
 class _GetAllMesureViewState extends State<GetAllMesureView> {
   var data = MesuresViewModel(mesuresRepository: MesuresApi());
-  //var id = widget.id;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: IconButton(
-                icon: Icon(Icons.qr_code),
-                onPressed: () {
-                  //  scanQR();
-                }
-                // scanQR(),
-                ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: IconButton(
-                icon: const Icon(Icons.logout),
-                onPressed: () {
-                  //  cleanpref();
-                }
-                // => scanQR(),
-                ),
-          ),
-        ],
-
         title: const Text('Mesures', style: TextStyle(fontSize: 20)),
 
         backgroundColor: const Color(0xFFFF8000), // appbar color.
