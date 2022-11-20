@@ -75,7 +75,9 @@ class _GetAllMesureViewState extends State<GetAllMesureView> {
                               child: MesureCard(
                                 comments: mesures![index].comments,
                                 counterCode: mesures![index].counterCode,
-                                dateMeasure: mesures![index].dateMeasure,
+                                dateMeasure: mesures![index]
+                                    .dateMeasure
+                                    .substring(0, 10), //substring(0, 10)
                                 measure: mesures![index].measure,
                               )));
                     }

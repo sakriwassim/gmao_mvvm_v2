@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'dart:io';
 
+import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
@@ -25,6 +26,9 @@ class Addmesure extends StatefulWidget {
 }
 
 class _AddmesureState extends State<Addmesure> {
+  List<DateTime?> _dataTime = [];
+  String? dataTime;
+  String? shotdataTime;
   final formkey = GlobalKey<FormState>();
   String textbutton = "save";
 
@@ -74,58 +78,30 @@ class _AddmesureState extends State<Addmesure> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 //Text(widget.text),
-                Padding(
-                    padding: EdgeInsets.all(15),
-                    child: FutureBuilder(
-                      // future: addMesureViewModel.getdate(),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const CircularProgressIndicator();
-                        } else {
-                          var datenow = snapshot.data;
-                          return TextFormField(
-                            controller: TextEditingController(text: "$datenow"),
+                ElevatedButton(
+                    onPressed: () async {
+                      var _newDate = await showCalendarDatePicker2Dialog(
+                        context: context,
+                        config: CalendarDatePicker2WithActionButtonsConfig(),
+                        dialogSize: const Size(325, 400),
+                        initialValue: [],
+                        borderRadius: BorderRadius.circular(15),
+                      );
+                      if (_newDate != null) {
+                        setState(() {
+                          _dataTime = _newDate;
+                          dataTime = _dataTime
+                              .toString()
+                              .replaceAll("]", "")
+                              .replaceAll("[", "");
 
-                            //initialValue: "$datenow",
+                          shotdataTime = dataTime!.substring(0, 10);
+                        });
+                      }
+                    },
+                    child: const Text("Parcourire ce calendrier")),
 
-                            decoration: const InputDecoration(
-                              filled: true,
-                              fillColor: Color(0xFFF2F2F2),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(4)),
-                                borderSide: BorderSide(
-                                    width: 1, color: Color(0xFFFF8000)),
-                              ),
-                              border: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(4)),
-                                  borderSide: BorderSide(
-                                    width: 1,
-                                  )),
-                              labelText: 'date de mesure',
-                              labelStyle: TextStyle(
-                                color: Color.fromARGB(
-                                    255, 114, 59, 3), //<-- SEE HERE
-                              ),
-                              hintText: 'entre le date de mesure',
-                            ),
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return "Enter your Name";
-                              } else {
-                                dateMesurefield = datenow.toString();
-                                return null;
-                              }
-                            },
-                            onChanged: (text) {
-                              dateMesurefield = text;
-                            },
-                          );
-                        }
-                      },
-                    )),
+                Text(shotdataTime.toString()),
                 Padding(
                   padding: const EdgeInsets.all(15),
                   child: TextFormField(
@@ -235,8 +211,8 @@ class _AddmesureState extends State<Addmesure> {
                         setState(() {
                           // add imagepath to this fonction
 
-                          data.AddMesure(dateMesurefield, Mesurefield,
-                              DescriptionField, widget.id);
+                          data.AddMesure("${shotdataTime}T00:00:00",
+                              Mesurefield, DescriptionField, widget.id);
                         });
                       }
                     },

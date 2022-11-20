@@ -11,10 +11,10 @@ class MesuresApi extends MesuresRepository {
   @override
   Future<MesureModel> getMesureByID(String id) async {
     try {
-       SharedPreferences prefs = await SharedPreferences.getInstance();
-        var token = prefs.getString("token");
-   //   var token =
-     //     "ZZQ7D9_Ymble3Dm-vwd-ofRN_KNP07g31qTXvMHw1s9A7BOpFDxZ2uEsoqMG6HG7uc3prdXGfp729kssQHUo3IitxBPftE5s11Ss1oEzYg4WlrSSoE5Jxaqu0Zf1Ncb3PuAfrOh7_CgqYcx-NLHTMHujJUuVnnUMDGVdyOo7q4XCtkN7bQIqrWlH_KuWytfI0YjNsFTF0LbfcgFjp85uunMbT2kgXy5I1g1XY6D0dRGuPIYeXp_zv7iAJ1nQJcVVP2M6XCjdJ2rXl3nKofffK7mlJ6Q6BG1oUKiHIyxhGEip1uD_G9UEvPrubgr1xuFP4LNSE9tWz--DDetkbFucQqoOsYpNfe_CLH3fanvFGNiaM1JfZTq4q1lElc1qX9MArWM5w_9I8LAaG5Ng6twGA2GvHR8662pnIxmPzSpbYV9f_9ssvhCdOrqlPEHdTYDREovlZr4VQ0dd7zcBIjSJ3E8QN3h-IeIAr1LxwvYi7II";
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      var token = prefs.getString("token");
+      //   var token =
+      //     "ZZQ7D9_Ymble3Dm-vwd-ofRN_KNP07g31qTXvMHw1s9A7BOpFDxZ2uEsoqMG6HG7uc3prdXGfp729kssQHUo3IitxBPftE5s11Ss1oEzYg4WlrSSoE5Jxaqu0Zf1Ncb3PuAfrOh7_CgqYcx-NLHTMHujJUuVnnUMDGVdyOo7q4XCtkN7bQIqrWlH_KuWytfI0YjNsFTF0LbfcgFjp85uunMbT2kgXy5I1g1XY6D0dRGuPIYeXp_zv7iAJ1nQJcVVP2M6XCjdJ2rXl3nKofffK7mlJ6Q6BG1oUKiHIyxhGEip1uD_G9UEvPrubgr1xuFP4LNSE9tWz--DDetkbFucQqoOsYpNfe_CLH3fanvFGNiaM1JfZTq4q1lElc1qX9MArWM5w_9I8LAaG5Ng6twGA2GvHR8662pnIxmPzSpbYV9f_9ssvhCdOrqlPEHdTYDREovlZr4VQ0dd7zcBIjSJ3E8QN3h-IeIAr1LxwvYi7II";
       // try {
       var headersa = {'Authorization': 'Bearer $token'};
       String link =
@@ -178,7 +178,7 @@ class MesuresApi extends MesuresRepository {
           "measures": [
             {
               "counterId": counter.id,
-              "dateMeasure": "2022-10-16T17:22:56",
+              "dateMeasure": dateMesurefield,
               "measure": Mesurefield,
               "comments": DescriptionField,
               "filePath":

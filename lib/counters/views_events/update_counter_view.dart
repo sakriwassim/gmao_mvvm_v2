@@ -1,3 +1,4 @@
+import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -25,6 +26,9 @@ class UpdateScreen extends StatefulWidget {
 }
 
 class _UpdateScreenState extends State<UpdateScreen> {
+  List<DateTime?> _dataTime = [];
+  String? dataTime;
+  String? shotdataTime;
   late String dateMesurefield;
   final formkey = GlobalKey<FormState>();
   var data = CountersViewModel(countersRepository: CountersApi());
@@ -55,43 +59,31 @@ class _UpdateScreenState extends State<UpdateScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(15),
-                  child: TextFormField(
-                    controller:
-                        TextEditingController(text: "widget.dateMeasure"),
-                    decoration: const InputDecoration(
-                      filled: true,
-                      fillColor: Color(0xFFF2F2F2),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(4)),
-                        borderSide:
-                            BorderSide(width: 1, color: Color(0xFFFF8000)),
-                      ),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(4)),
-                          borderSide: BorderSide(
-                            width: 1,
-                          )),
-                      labelText: 'date de mesure',
-                      labelStyle: TextStyle(
-                        color: Color.fromARGB(255, 114, 59, 3), //<-- SEE HERE
-                      ),
-                      hintText: 'entre le date de mesure',
-                    ),
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return "entre le date de mesure";
-                      } else {
-                        dateMesurefield = "date";
-                        return null;
+                ElevatedButton(
+                    onPressed: () async {
+                      var _newDate = await showCalendarDatePicker2Dialog(
+                        context: context,
+                        config: CalendarDatePicker2WithActionButtonsConfig(),
+                        dialogSize: const Size(325, 400),
+                        initialValue: [],
+                        borderRadius: BorderRadius.circular(15),
+                      );
+                      if (_newDate != null) {
+                        setState(() {
+                          _dataTime = _newDate;
+                          dataTime = _dataTime
+                              .toString()
+                              .replaceAll("]", "")
+                              .replaceAll("[", "");
+
+                          shotdataTime = dataTime!.substring(0, 10);
+                        });
                       }
                     },
-                    onChanged: (text) {
-                      dateMesurefield = text;
-                    },
-                  ),
-                ),
+                    child: const Text("Parcourire ce calendrier")),
+                Text(dataTime.toString()),
+                Text(shotdataTime.toString()),
+                //DateTime.parse(dataTime.toString())
                 Padding(
                   padding: const EdgeInsets.all(15),
                   child: TextFormField(
@@ -174,12 +166,10 @@ class _UpdateScreenState extends State<UpdateScreen> {
                     ),
                     onPressed: () {
                       if (formkey.currentState!.validate()) {
-                        // AddCounterModel eventformJson =
-                        //     AddCounterModel.toObject(event);
-
                         setState(() {
                           data.UpdateCounterByID(
-                              dateMesurefield,
+                              "${shotdataTime}T00:00:00",
+                              //"2022-10-16T17:22:14",
                               Mesurefield,
                               DescriptionField,
                               widget.id,

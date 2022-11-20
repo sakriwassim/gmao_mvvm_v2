@@ -142,7 +142,8 @@ class CountersApi extends CountersRepository {
                   counter.measures[indextabmesure].unitMeasureFullDesignation,
               "counterMaxValue":
                   counter.measures[indextabmesure].counterMaxValue,
-              "dateMeasure": "2022-10-16T17:22:14",
+              //dateMesurefield
+              "dateMeasure": dateMesurefield,
               "measure": Mesurefield,
               "comments": DescriptionField,
               "id": counter.measures[indextabmesure].id,

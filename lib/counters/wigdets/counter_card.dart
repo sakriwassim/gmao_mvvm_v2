@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:maps_launcher/maps_launcher.dart';
+//import 'package:maps_launcher/maps_launcher.dart';
 
 import 'button_widget.dart';
 
@@ -20,9 +22,9 @@ class CounterCard extends StatelessWidget {
       this.description})
       : super(key: key);
 
-  // getposition() {
-  //   MapsLauncher.launchQuery("equipmentLocalization :$equipmentLocalization");
-  // }
+  getposition() {
+    MapsLauncher.launchQuery("equipmentLocalization :$equipmentLocalization");
+  }
 
   // MapsLauncher.launchCoordinates(
   //                   37.4220041, -122.0862462, 'Google Headquarters are here'),
@@ -57,7 +59,7 @@ class CounterCard extends StatelessWidget {
               width: 120,
               child: CircleAvatar(
                 radius: 100,
-                //  backgroundImage: AssetImage('assets/images/image2.png'),
+                backgroundImage: AssetImage('assets/images/image2.png'),
               ),
 
               // Image.asset('assets/images/image1.jpg'),
@@ -108,11 +110,11 @@ class CounterCard extends StatelessWidget {
                   //     //style: Theme.of(context).textTheme.headline6,
                   //   ),
                   // ),
-                  // Expanded(
-                  //   child: Button(
-                  //       textbutton: "localisation",
-                  //       callbackFunction: getposition),
-                  // )
+                  Expanded(
+                    child: Button(
+                        textbutton: "localisation",
+                        callbackFunction: getposition),
+                  )
                 ],
               ),
             ),

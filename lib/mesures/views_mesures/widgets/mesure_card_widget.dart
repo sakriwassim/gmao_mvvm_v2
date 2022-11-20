@@ -52,7 +52,7 @@ class MesureCard extends StatelessWidget {
                   width: 120,
                   child: const CircleAvatar(
                     radius: 100,
-                    //backgroundImage: AssetImage('assets/images/image2.png'),
+                    backgroundImage: AssetImage('assets/images/image2.png'),
                   ),
                 ),
               ),

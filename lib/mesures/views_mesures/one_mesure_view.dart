@@ -87,12 +87,12 @@ class _MesureDetailsState extends State<MesureDetails> {
                       height: 200,
                       width: 200,
                       child: const Center(
-                          // child: CircleAvatar(
-                          //   radius: 100,
-                          //   backgroundImage:
-                          //       AssetImage('assets/images/image2.png'),
-                          // ),
-                          ),
+                        child: CircleAvatar(
+                          radius: 100,
+                          backgroundImage:
+                              AssetImage('assets/images/image2.png'),
+                        ),
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -137,7 +137,7 @@ class _MesureDetailsState extends State<MesureDetails> {
                   Padding(
                     padding: const EdgeInsets.all(15),
                     child: Text(
-                      "Date Mesure :  ${widget.dateMeasure}",
+                      "Date Mesure :  ${widget.dateMeasure.substring(0, 10)}",
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
